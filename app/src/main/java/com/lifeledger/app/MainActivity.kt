@@ -123,7 +123,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
             Column(Modifier.fillMaxSize()) {
                 Header()
                 when (tab) {
-                    "Home" -> HomeScreen(balance, monthIncome, monthExpenses, transactions, goals,
+                    "Home" -> HomeScreen(balance, income, expenses, monthIncome, monthExpenses, transactions, goals,
                         onAddExpense = { initialType = "Expense"; showAdd = true },
                         onAddIncome = { initialType = "Income"; showAdd = true },
                         onSeeAll = { tab = "Activity" },
@@ -174,7 +174,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
 }
 
 @Composable private fun ColumnScope.HomeScreen(
-    balance: Double, income: Double, expenses: Double, transactions: List<Tx>, goals: List<GoalItem>,
+    balance: Double, income: Double, expenses: Double, monthIncome: Double, monthExpenses: Double, transactions: List<Tx>, goals: List<GoalItem>,
     onAddExpense: () -> Unit, onAddIncome: () -> Unit, onSeeAll: () -> Unit, onGoals: () -> Unit
 ) {
     LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
@@ -219,7 +219,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
                 Text("LIVE TOTALS", color = Mint, fontSize = 10.sp, fontWeight = FontWeight.Bold)
             }
         }
-        item { MonthlyChart(income, expenses) }
+        item { MonthlyChart(monthIncome, monthExpenses) }
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Recent activity", color = TextMain, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
