@@ -3,6 +3,7 @@ package com.lifeledger.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import android.graphics.BitmapFactory
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,7 +46,7 @@ class MainActivity : ComponentActivity() {
         Surface(Modifier.fillMaxSize(), color = Bg) {
             Column(Modifier.fillMaxSize()) {
                 Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(46.dp).background(Color(0xFF0E3A29), RoundedCornerShape(16.dp)), contentAlignment = Alignment.Center) { Text("✦", color = Green, fontSize = 26.sp) }
+                    AssetImage("life_ledger_logo.png", Modifier.size(46.dp))
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) { Text("Life Ledger", color = White, fontSize = 23.sp, fontWeight = FontWeight.Bold); Text("Your progress matters", color = Muted, fontSize = 12.sp) }
                     Text("◉", color = Mint, fontSize = 22.sp)
@@ -50,7 +54,7 @@ class MainActivity : ComponentActivity() {
                 when (tab) {
                     "Home" -> LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         item { Text("Good morning,", color = White, fontSize = 23.sp, fontWeight = FontWeight.SemiBold); Text("Small steps build a better you.", color = Muted) }
-                        item { Column(Modifier.fillMaxWidth().background(Panel, RoundedCornerShape(22.dp)).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) { Text("TOTAL BALANCE", color = Mint, fontSize = 12.sp, fontWeight = FontWeight.Bold); Text("₱ 24,850.00", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold); Text("↗  +12% this month", color = Green) } }
+                        item { Box(Modifier.fillMaxWidth().height(164.dp)) { AssetImage("mountain_landscape.png", Modifier.fillMaxSize()); Column(Modifier.fillMaxSize().background(Panel.copy(alpha = .72f), RoundedCornerShape(22.dp)).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) { Text("TOTAL BALANCE", color = Mint, fontSize = 12.sp, fontWeight = FontWeight.Bold); Text("₱ 24,850.00", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold); Text("↗  +12% this month", color = Green) } } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { ActionCard("−", "Add expense", Color(0xFFFF6868), Modifier.weight(1f)) { showAdd = true }; ActionCard("+", "Add income", Green, Modifier.weight(1f)) { showAdd = true }; ActionCard("⇄", "Transfer", Color(0xFF54B8FF), Modifier.weight(1f)) { showAdd = true } } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { Summary("Income", "₱18,500", Modifier.weight(1f)); Summary("Expenses", "₱12,340", Modifier.weight(1f)) } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { Summary("Savings", "₱6,160", Modifier.weight(1f)); Summary("Bills", "₱2,000", Modifier.weight(1f)) } }
@@ -74,6 +78,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable private fun ActionCard(symbol: String, label: String, tint: Color, modifier: Modifier, onClick: () -> Unit) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).clickable { onClick() }.padding(vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally) { Box(Modifier.size(38.dp).background(tint, CircleShape), contentAlignment = Alignment.Center) { Text(symbol, color = Bg, fontSize = 23.sp, fontWeight = FontWeight.Bold) }; Spacer(Modifier.height(8.dp)); Text(label, color = White, fontSize = 10.sp) } }
+@Composable private fun AssetImage(name: String, modifier: Modifier = Modifier) {\n    val context = LocalContext.current\n    val image = remember(name) { runCatching { context.assets.open(name).use { BitmapFactory.decodeStream(it).asImageBitmap() } }.getOrNull() }\n    if (image != null) Image(bitmap = image, contentDescription = name.substringBefore("."), modifier = modifier)\n    else Box(modifier.background(Color(0xFF0E3A29), RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) { Text("LL", color = Green, fontWeight = FontWeight.Bold) }\n}\n\n@Composable private fun ActionCard(symbol: String, label: String, tint: Color, modifier: Modifier, onClick: () -> Unit) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).clickable { onClick() }.padding(vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally) { Box(Modifier.size(38.dp).background(tint, CircleShape), contentAlignment = Alignment.Center) { Text(symbol, color = Bg, fontSize = 23.sp, fontWeight = FontWeight.Bold) }; Spacer(Modifier.height(8.dp)); Text(label, color = White, fontSize = 10.sp) } }
 @Composable private fun Summary(title: String, value: String, modifier: Modifier) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).padding(16.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) { Text(title, color = Muted, fontSize = 12.sp); Text(value, color = White, fontSize = 17.sp, fontWeight = FontWeight.Bold) } }
 @Composable private fun Goal(title: String, value: String, progress: Float) { Column(Modifier.fillMaxWidth().background(Panel, RoundedCornerShape(16.dp)).padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) { Text(title, color = White, fontWeight = FontWeight.SemiBold); Text(value, color = Muted, fontSize = 12.sp); LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Green, trackColor = Color(0xFF173D2D)) } }
