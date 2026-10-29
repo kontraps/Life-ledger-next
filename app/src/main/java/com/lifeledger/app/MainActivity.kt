@@ -78,6 +78,37 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable private fun AssetImage(name: String, modifier: Modifier = Modifier) {\n    val context = LocalContext.current\n    val image = remember(name) { runCatching { context.assets.open(name).use { BitmapFactory.decodeStream(it).asImageBitmap() } }.getOrNull() }\n    if (image != null) Image(bitmap = image, contentDescription = name.substringBefore("."), modifier = modifier)\n    else Box(modifier.background(Color(0xFF0E3A29), RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) { Text("LL", color = Green, fontWeight = FontWeight.Bold) }\n}\n\n@Composable private fun ActionCard(symbol: String, label: String, tint: Color, modifier: Modifier, onClick: () -> Unit) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).clickable { onClick() }.padding(vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally) { Box(Modifier.size(38.dp).background(tint, CircleShape), contentAlignment = Alignment.Center) { Text(symbol, color = Bg, fontSize = 23.sp, fontWeight = FontWeight.Bold) }; Spacer(Modifier.height(8.dp)); Text(label, color = White, fontSize = 10.sp) } }
-@Composable private fun Summary(title: String, value: String, modifier: Modifier) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).padding(16.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) { Text(title, color = Muted, fontSize = 12.sp); Text(value, color = White, fontSize = 17.sp, fontWeight = FontWeight.Bold) } }
-@Composable private fun Goal(title: String, value: String, progress: Float) { Column(Modifier.fillMaxWidth().background(Panel, RoundedCornerShape(16.dp)).padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) { Text(title, color = White, fontWeight = FontWeight.SemiBold); Text(value, color = Muted, fontSize = 12.sp); LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Green, trackColor = Color(0xFF173D2D)) } }
+@Composable private fun AssetImage(name: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val image = remember(name) { runCatching { context.assets.open(name).use { BitmapFactory.decodeStream(it).asImageBitmap() } }.getOrNull() }
+    if (image != null) Image(bitmap = image, contentDescription = name.substringBefore("."), modifier = modifier)
+    else Box(modifier.background(Color(0xFF0E3A29), RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) { Text("LL", color = Green, fontWeight = FontWeight.Bold) }
+}
+
+@Composable private fun ActionCard(symbol: String, label: String, tint: Color, modifier: Modifier, onClick: () -> Unit) { Column(modifier.background(Panel, RoundedCornerShape(18.dp)).clickable { onClick() }.padding(vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally) { Box(Modifier.size(38.dp).background(tint, CircleShape), contentAlignment = Alignment.Center) { Text(symbol, color = Bg, fontSize = 23.sp, fontWeight = FontWeight.Bold) }; Spacer(Modifier.height(8.dp)); Text(label, color = White, fontSize = 10.sp) } }
+@Composable private fun Summary(title: String, value: String, modifier: Modifier) {
+    val icon = when {
+        title.contains("Income", true) -> "icons/income.webp"
+        title.contains("Bill", true) || title.contains("Internet", true) || title.contains("Rent", true) -> "icons/bills.webp"
+        title.contains("Saving", true) -> "icons/savings.webp"
+        else -> "icons/shopping.webp"
+    }
+    Row(modifier.background(Panel, RoundedCornerShape(18.dp)).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+        AssetImage(icon, Modifier.size(34.dp))
+        Spacer(Modifier.width(10.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(7.dp)) { Text(title, color = Muted, fontSize = 12.sp); Text(value, color = White, fontSize = 17.sp, fontWeight = FontWeight.Bold) }
+    }
+}
+@Composable private fun Goal(title: String, value: String, progress: Float) {
+    val icon = when {
+        title.contains("phone", true) -> "icons/phone_goal.webp"
+        title.contains("Travel", true) -> "icons/plane_goal.webp"
+        title.contains("Emergency", true) -> "icons/shield_goal.webp"
+        else -> "icons/pc_goal.webp"
+    }
+    Row(Modifier.fillMaxWidth().background(Panel, RoundedCornerShape(16.dp)).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+        AssetImage(icon, Modifier.size(42.dp))
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) { Text(title, color = White, fontWeight = FontWeight.SemiBold); Text(value, color = Muted, fontSize = 12.sp); LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Green, trackColor = Color(0xFF173D2D)) }
+    }
+}
