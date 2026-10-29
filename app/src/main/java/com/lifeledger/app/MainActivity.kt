@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         Surface(Modifier.fillMaxSize(), color = Bg) {
             Column(Modifier.fillMaxSize()) {
                 Row(Modifier.fillMaxWidth().padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-                    AssetImage("life_ledger_logo.png", Modifier.size(46.dp))
+                    AssetImage("life_ledger_logo.webp", Modifier.size(46.dp))
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) { Text("Life Ledger", color = White, fontSize = 23.sp, fontWeight = FontWeight.Bold); Text("Your progress matters", color = Muted, fontSize = 12.sp) }
                     Text("◉", color = Mint, fontSize = 22.sp)
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                 when (tab) {
                     "Home" -> LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         item { Text("Good morning,", color = White, fontSize = 23.sp, fontWeight = FontWeight.SemiBold); Text("Small steps build a better you.", color = Muted) }
-                        item { Box(Modifier.fillMaxWidth().height(164.dp)) { AssetImage("mountain_landscape.png", Modifier.fillMaxSize()); Column(Modifier.fillMaxSize().background(Panel.copy(alpha = .72f), RoundedCornerShape(22.dp)).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) { Text("TOTAL BALANCE", color = Mint, fontSize = 12.sp, fontWeight = FontWeight.Bold); Text("₱ 24,850.00", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold); Text("↗  +12% this month", color = Green) } } }
+                        item { Box(Modifier.fillMaxWidth().height(164.dp)) { AssetImage("mountain_landscape.webp", Modifier.fillMaxSize()); Column(Modifier.fillMaxSize().background(Panel.copy(alpha = .72f), RoundedCornerShape(22.dp)).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) { Text("TOTAL BALANCE", color = Mint, fontSize = 12.sp, fontWeight = FontWeight.Bold); Text("₱ 24,850.00", color = White, fontSize = 30.sp, fontWeight = FontWeight.Bold); Text("↗  +12% this month", color = Green) } } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { ActionCard("−", "Add expense", Color(0xFFFF6868), Modifier.weight(1f)) { showAdd = true }; ActionCard("+", "Add income", Green, Modifier.weight(1f)) { showAdd = true }; ActionCard("⇄", "Transfer", Color(0xFF54B8FF), Modifier.weight(1f)) { showAdd = true } } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { Summary("Income", "₱18,500", Modifier.weight(1f)); Summary("Expenses", "₱12,340", Modifier.weight(1f)) } }
                         item { Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) { Summary("Savings", "₱6,160", Modifier.weight(1f)); Summary("Bills", "₱2,000", Modifier.weight(1f)) } }
