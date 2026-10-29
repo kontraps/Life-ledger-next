@@ -173,7 +173,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
     }
 }
 
-@Composable private fun HomeScreen(
+@Composable private fun ColumnScope.HomeScreen(
     balance: Double, income: Double, expenses: Double, transactions: List<Tx>, goals: List<GoalItem>,
     onAddExpense: () -> Unit, onAddIncome: () -> Unit, onSeeAll: () -> Unit, onGoals: () -> Unit
 ) {
@@ -246,7 +246,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
     }
 }
 
-@Composable private fun ActivityScreen(transactions: List<Tx>, onDelete: (Tx) -> Unit, onAdd: () -> Unit) {
+@Composable private fun ColumnScope.ActivityScreen(transactions: List<Tx>, onDelete: (Tx) -> Unit, onAdd: () -> Unit) {
     Column(Modifier.weight(1f).padding(horizontal = 20.dp)) {
         Text("Activity", color = TextMain, fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Text("Every transaction, in one place.", color = TextMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp, bottom = 18.dp))
@@ -263,7 +263,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
     }
 }
 
-@Composable private fun BudgetScreen(income: Double, expenses: Double, transactions: List<Tx>, onAdd: () -> Unit) {
+@Composable private fun ColumnScope.BudgetScreen(income: Double, expenses: Double, transactions: List<Tx>, onAdd: () -> Unit) {
     val categories = transactions.filter { it.type == "Expense" }.groupBy { it.category }.mapValues { e -> e.value.sumOf { it.amount } }.toList().sortedByDescending { it.second }
     Column(Modifier.weight(1f).padding(horizontal = 20.dp)) {
         Text("Spending", color = TextMain, fontSize = 28.sp, fontWeight = FontWeight.Bold)
@@ -294,7 +294,7 @@ private fun LifeLedgerApp(store: LedgerStore) {
     }
 }
 
-@Composable private fun GoalsScreen(goals: List<GoalItem>, onAddGoal: () -> Unit, onAddSavings: (GoalItem) -> Unit) {
+@Composable private fun ColumnScope.GoalsScreen(goals: List<GoalItem>, onAddGoal: () -> Unit, onAddSavings: (GoalItem) -> Unit) {
     Column(Modifier.weight(1f).padding(horizontal = 20.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) { Text("Your goals", color = TextMain, fontSize = 28.sp, fontWeight = FontWeight.Bold); Text("Small steps, real progress.", color = TextMuted, fontSize = 13.sp) }
