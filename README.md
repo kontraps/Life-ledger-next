@@ -1,20 +1,29 @@
 # Life Ledger Next
 
-A fresh Android Jetpack Compose implementation inspired by the generated Life Ledger visual concept.
-
-## Features
-- Dark emerald dashboard using Philippine pesos
-- Income and expense summary cards
-- Recent transaction list and add-transaction dialog
-- Reports and savings-goal screens
-- Image-generated raster graphics are provided in the downloadable project ZIP
+A fresh Android Jetpack Compose starter inspired by the generated Life Ledger design: deep emerald surfaces, mint accents, Philippine peso summaries, transactions, reports, and savings goals.
 
 ## Open and run
-1. Open this folder in Android Studio.
+1. Open this repository in Android Studio.
 2. Allow Gradle sync to finish.
-3. Run the `app` configuration on an Android emulator or device (Android 8.0 / API 26 or newer).
+3. Run the `app` configuration on an Android device or emulator (API 26+).
 
-## Important
-This starter keeps transactions in memory, so they reset when the app process restarts. Add Room or DataStore before relying on it for real financial records.
+## Add the generated raster artwork
+The app is wired to load generated image files from Android's assets directory. To use the same generated artwork as the reference design, download the companion ZIP from the ChatGPT conversation and copy its contents into this repository, preserving paths:
 
-The generated PNG assets are part of the companion ZIP available in this conversation. They still need to be copied into `app/src/main/assets/` before running this repository version.
+- `app/src/main/assets/life_ledger_logo.png`
+- `app/src/main/assets/mountain_landscape.png`
+- `app/src/main/assets/forest_background.png`
+- `app/src/main/assets/mountain_sunset.png`
+- `app/src/main/assets/generated_design_sheet.jpg`
+- `app/src/main/assets/icons/*.png`
+
+The asset files are original generated raster images, not icon drawings made from code. The repository currently contains the asset instructions, while the binary artwork is still in the companion ZIP.
+
+## Current implementation status
+- Dark emerald Android UI
+- Home dashboard, transaction list, reports, and savings goals
+- Add-transaction dialog
+- Logo and mountain image loading with fallbacks
+
+## Before using for real finances
+Transactions currently live in memory and reset when the app process restarts. Add Room or DataStore persistence, tests, and backup/restore before relying on it for financial records.
